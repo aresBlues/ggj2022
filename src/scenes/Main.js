@@ -85,7 +85,7 @@ export default class MainScene extends Phaser.Scene {
 		this.add.existing(text)
 		this.add.existing(scoreText)
 		this.bgimage=this.add.sprite(width / 2, height / 2,'bg')
-		this.bgimage2=this.add.sprite(width / 2 + width, height / 2,'bg')
+		this.bgimage2=this.add.sprite(width / 2 + width, height / 2,'bg2')
 		
 		const character = new Character(this)
 		character.setPosition(50, height / 2)
@@ -127,7 +127,7 @@ export default class MainScene extends Phaser.Scene {
 		for (const obstacle of this.obstacles) {
 			obstacle.updatePosition(deltaTime)
 			
-			if (obstacle.x < 0) {
+			if (obstacle.x < -20) {
 				obstacle.destroy()
 				despawnObstacles.push(obstacle)
 			}
