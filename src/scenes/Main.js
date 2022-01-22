@@ -4,13 +4,17 @@ class Character extends Phaser.GameObjects.Container {
 	constructor (scene) {
 		super(scene)
 		
-		const overworldCharacter = new Phaser.GameObjects.Image(scene, 0, 0, 'character')
+		const overworldCharacter = new Phaser.GameObjects.Sprite(scene, 0, 0, 'white_run1')
 		overworldCharacter.setOrigin(0, 1)
+		overworldCharacter.play('white_run')
+		scene.add.updateList.add(overworldCharacter)
 		this.overworldCharacter = overworldCharacter
 
-		const underworldCharacter = new Phaser.GameObjects.Image(scene, 0, 0, 'character')
+		const underworldCharacter = new Phaser.GameObjects.Sprite(scene, 0, 0, 'black_run1')
 		underworldCharacter.setOrigin(0, 1)
 		underworldCharacter.setScale(1, -1)
+		underworldCharacter.play('black_run')
+		scene.add.updateList.add(underworldCharacter)
 		this.underworldCharacter = underworldCharacter
 		
 		this.speed = 0
@@ -85,7 +89,7 @@ export default class MainScene extends Phaser.Scene {
 		this.add.existing(text)
 		this.add.existing(scoreText)
 		this.bgimage=this.add.sprite(width / 2, height / 2,'bg')
-		this.bgimage2=this.add.sprite(width / 2 + width, height / 2,'bg')
+		this.bgimage2=this.add.sprite(width / 2 + width, height / 2,'bg2')
 		
 		const character = new Character(this)
 		character.setPosition(50, height / 2)
@@ -127,7 +131,7 @@ export default class MainScene extends Phaser.Scene {
 		for (const obstacle of this.obstacles) {
 			obstacle.updatePosition(deltaTime)
 			
-			if (obstacle.x < 0) {
+			if (obstacle.x < -20) {
 				obstacle.destroy()
 				despawnObstacles.push(obstacle)
 			}
