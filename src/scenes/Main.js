@@ -91,9 +91,11 @@ export default class MainScene extends Phaser.Scene {
 
 	create () {
 		const { width, height } = this.sys.canvas
-
-		this.bgimage=this.add.sprite(width / 2, height / 2,'bg')
-		this.bgimage2=this.add.sprite(width / 2 + width, height / 2,'bg2')
+		this.availableBackgrounds = [1, 2, 3, 4]
+		this.usedBackgrounds = []
+		
+		this.bgimage = this.add.sprite(width / 2, height / 2, 'bg' + this.selectRandomBackground())
+		this.bgimage2 = this.add.sprite(width / 2 + width, height / 2,'bg' + this.selectRandomBackground())
 		
 		const character = new Character(this)
 		character.setPosition(300, height / 2)
@@ -117,17 +119,32 @@ export default class MainScene extends Phaser.Scene {
 			loop: true
 		})
 	}
+	
+	selectRandomBackground () {
+		const index = Math.floor(Math.random() * this.availableBackgrounds.length)
+		const backgroundId = this.availableBackgrounds[index]
+		this.availableBackgrounds.splice(index, 1)
+		this.usedBackgrounds.push(backgroundId)
+		return backgroundId
+	}
+	
+	resetBackground (background) {
+		const { width } = this.sys.canvas
+		
+		if (background.x <= -width / 2) {
+			background.x += width * 2
+			const nextBackground = this.selectRandomBackground()
+			this.availableBackgrounds.push(this.usedBackgrounds.shift())
+			background.setTexture('bg' + nextBackground)
+		}
+	}
 
 	update (time, deltaTime) {
-		const { width, height } = this.sys.canvas	
 		this.bgimage.x += -RUNNING_SPEED * deltaTime / 1000;
 		this.bgimage2.x += -RUNNING_SPEED * deltaTime / 1000;
-		if (this.bgimage.x <= -width / 2) {
-			this.bgimage.x += width * 2
-		}
-		if (this.bgimage2.x <= -width / 2) {
-			this.bgimage2.x += width * 2
-		}
+		
+		this.resetBackground(this.bgimage)
+		this.resetBackground(this.bgimage2)
 		
 		this.character.updatePosition(deltaTime)
 		

@@ -4,8 +4,10 @@ export default class SplashScene extends Phaser.Scene {
 	}
 
 	preload () {
-		this.load.image('bg', '/assets/images/FirstBackground.png');
+		this.load.image('bg1', '/assets/images/FirstBackground.png');
 		this.load.image('bg2', '/assets/images/SecondBackground.png');
+		this.load.image('bg3', '/assets/images/TownArea.png');
+		this.load.image('bg4', '/assets/images/TownArea2.png');
 		this.load.image('white_run1', 'assets/images/Character_White/White_Run1.png')
 		this.load.image('white_run2', 'assets/images/Character_White/White_Run2.png')
 		this.load.image('white_run3', 'assets/images/Character_White/White_Run3.png')
