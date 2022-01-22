@@ -164,16 +164,25 @@ export default class MainScene extends Phaser.Scene {
 			},
 			loop: true
 		})
-
+		
+		let difficulty = 0
 		const obstacleSpawn = this.time.addEvent({
 			delay: 4000,
 			callback: () => {
-				const obstacle = new Obstacle(this)
-				this.add.existing(obstacle)
-				this.obstacles.push(obstacle)
+				difficulty++
+				this.spawnObstacle()
+				if (difficulty > 10 && Math.random() > 0.5) {
+					setTimeout(() => this.spawnObstacle(), 1000)
+				}
 			},
 			loop: true
 		})
+	}
+	
+	spawnObstacle () {
+		const obstacle = new Obstacle(this)
+		this.add.existing(obstacle)
+		this.obstacles.push(obstacle)
 	}
 	
 	selectRandomBackground () {
