@@ -45,6 +45,21 @@ class Character extends Phaser.GameObjects.Container {
 	}
 }
 
+class Obstacle extends Phaser.GameObjects.Image {
+	constructor (scene, speed = -100) {
+		const { width, height } = scene.sys.canvas
+		super(scene, width, height / 2, 'obstacle')
+		this.setOrigin(0, 1)
+		this.speed = speed
+	}
+	
+	updatePosition (deltaTime) {
+		const dx = this.speed * deltaTime / 1000
+		
+		this.x += dx
+	}
+}
+
 export default class MainScene extends Phaser.Scene {
 	constructor () {
 		super({ key: 'Main' })
@@ -81,6 +96,19 @@ export default class MainScene extends Phaser.Scene {
 		this.input.on('pointerdown', () => {
 			this.character.jump()
 		})
+		
+		this.obstacles = []
+		
+		const obstacleSpawn = this.time.addEvent({
+			delay: 10000,
+			callback: () => {
+				console.log('spawn')
+				const obstacle = new Obstacle(this)
+				this.add.existing(obstacle)
+				this.obstacles.push(obstacle)
+			},
+			loop: true
+		})
 	}
 
 	update (time, deltaTime) {
@@ -93,5 +121,24 @@ export default class MainScene extends Phaser.Scene {
 			this.bgimage2.x=width / 2 + width
 		
 		this.character.updatePosition(deltaTime)
+		
+		const despawnObstacles = []
+		
+		for (const obstacle of this.obstacles) {
+			obstacle.updatePosition(deltaTime)
+			
+			if (obstacle.x < 0) {
+				obstacle.destroy()
+				despawnObstacles.push(obstacle)
+			}
+		}
+		
+		for (const obstacle of despawnObstacles) {
+			const index = this.obstacles.indexOf(obstacle)
+			
+			if (index !== -1) {
+				this.obstacles.splice(index, 1)
+			}
+		}
 	}
 }
