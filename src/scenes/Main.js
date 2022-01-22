@@ -158,9 +158,19 @@ export default class MainScene extends Phaser.Scene {
 		const BackgroundSpawn = this.time.addEvent({
 			delay: 4000,
 			callback: () => {
-				const object = new Background(this)
+				const object = new Background(this, -this.runningSpeed * 1.2)
 				this.add.existing(object)
 				this.backgroundObjects.push(object)
+			},
+			loop: true
+		})
+		
+		this.runningSpeed = RUNNING_SPEED
+		const speedtimer = this.time.addEvent({
+			delay: 1000,
+			callback: () => {
+				this.runningSpeed++
+				this.updateSpeed()
 			},
 			loop: true
 		})
@@ -179,8 +189,14 @@ export default class MainScene extends Phaser.Scene {
 		})
 	}
 	
+	updateSpeed () {
+		for (const obstacle of this.obstacles) {
+			obstacle.speed = -this.runningSpeed
+		}
+	}
+	
 	spawnObstacle () {
-		const obstacle = new Obstacle(this)
+		const obstacle = new Obstacle(this, -this.runningSpeed)
 		this.add.existing(obstacle)
 		this.obstacles.push(obstacle)
 	}
@@ -226,8 +242,8 @@ export default class MainScene extends Phaser.Scene {
 	}
 
 	update (time, deltaTime) {
-		this.bgimage.x += -RUNNING_SPEED * deltaTime / 1000;
-		this.bgimage2.x += -RUNNING_SPEED * deltaTime / 1000;
+		this.bgimage.x += -this.runningSpeed * deltaTime / 1000;
+		this.bgimage2.x += -this.runningSpeed * deltaTime / 1000;
 		
 		this.resetBackground(this.bgimage)
 		this.resetBackground(this.bgimage2)
