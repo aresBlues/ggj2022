@@ -29,6 +29,9 @@ export default class SplashScene extends Phaser.Scene {
 		this.load.image('obstacle3', 'assets/images/Obstacles/RedStone.png')
 		this.load.image('fire2', 'assets/images/Obstacles/Fire2.png')
 		this.load.image('fire3', 'assets/images/Obstacles/Fire3.png')
+		this.load.image('raven1','assets/images/Crow/raven-black0001.png')
+		this.load.image('raven2','assets/images/Crow/raven-black0008.png')
+		this.load.image('raven3','assets/images/Crow/raven-black0010.png')
 	}
 
 	create () {
@@ -86,6 +89,18 @@ export default class SplashScene extends Phaser.Scene {
                 { key: 'obstacle2' },
                 { key: 'fire2' },
                 { key: 'fire3' }
+            ],
+            frameRate: 8,
+            repeat: -1
+        })
+
+		this.anims.create({
+            key: 'crow',
+            frames: [
+                { key: 'raven1' },
+                { key: 'raven2' },
+				{ key: 'raven3' }
+                
             ],
             frameRate: 8,
             repeat: -1
