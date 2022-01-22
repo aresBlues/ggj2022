@@ -9,7 +9,7 @@ const DEFAULT_WIDTH = 1920
 const DEFAULT_HEIGHT = 1080
 
 export default {
-	type: Bowser.getParser(window.navigator.userAgent).getOSName() === 'iOS' ? Phaser.CANVAS : Phaser.AUTO,
+	type: Phaser.CANVAS, // Bowser.getParser(window.navigator.userAgent).getOSName() === 'iOS' ? Phaser.CANVAS : Phaser.AUTO,
 	backgroundColor: '#ffffff',
 	scale: {
 		parent: 'phaser-game',
