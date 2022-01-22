@@ -187,6 +187,7 @@ export default class MainScene extends Phaser.Scene {
 			},
 			loop: true
 		})
+		this.spawnObstacle()
 	}
 	
 	updateSpeed () {
