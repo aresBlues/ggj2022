@@ -84,6 +84,38 @@ class Obstacle extends Phaser.GameObjects.Sprite {
 	}
 }
 
+class Background extends Phaser.GameObjects.Sprite {
+	constructor (scene, speed = -RUNNING_SPEED*1.2) {
+		const { width, height } = scene.sys.canvas
+		const index = Math.floor(Math.random() * 3) + 1
+		
+		if (Math.random() >= 0.5) {
+			super(scene, width, height * 7/8, 'obstacle' + index)
+			this.setScale(-0.1, -0.1)
+		}
+		else {
+			super(scene, width, height / 8, 'obstacle' + index)
+			this.setScale(-0.1, 0.1)
+		}
+		
+		
+			
+			
+			this.play('crow')
+			scene.add.updateList.add(this)
+		
+		
+		this.setOrigin(0, 1)
+		this.speed = speed
+	}
+	
+	updatePosition (deltaTime) {
+		const dx = this.speed * deltaTime / 1000
+		
+		this.x += dx
+	}
+}
+
 export default class MainScene extends Phaser.Scene {
 	constructor () {
 		super({ key: 'Main' })
@@ -106,7 +138,18 @@ export default class MainScene extends Phaser.Scene {
 		})
 		
 		this.obstacles = []
+		this.background = []
 		
+		const BackgroundSpawn = this.time.addEvent({
+			delay: 4000,
+			callback: () => {
+				const obstacle = new Background(this)
+				this.add.existing(obstacle)
+				this.obstacles.push(obstacle)
+			},
+			loop: true
+		})
+
 		const obstacleSpawn = this.time.addEvent({
 			delay: 4000,
 			callback: () => {
