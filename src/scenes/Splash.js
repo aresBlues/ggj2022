@@ -9,9 +9,19 @@ export default class SplashScene extends Phaser.Scene {
 		this.load.image('white_run1', 'assets/images/Character_White/White_Run1.png')
 		this.load.image('white_run2', 'assets/images/Character_White/White_Run2.png')
 		this.load.image('white_run3', 'assets/images/Character_White/White_Run3.png')
+		this.load.image('white_jump1', 'assets/images/Character_White/White_StartJump.png')
+		this.load.image('white_jump2', 'assets/images/Character_White/White_Jump1.png')
+		this.load.image('white_jump3', 'assets/images/Character_White/White_Jump2.png')
+		this.load.image('white_jump4', 'assets/images/Character_White/White_Jump3.png')
+		this.load.image('white_jump5', 'assets/images/Character_White/White_EndJump.png')
 		this.load.image('black_run1', 'assets/images/Character_Black/Black_Run1.png')
 		this.load.image('black_run2', 'assets/images/Character_Black/Black_Run2.png')
 		this.load.image('black_run3', 'assets/images/Character_Black/Black_Run3.png')
+		this.load.image('black_jump1', 'assets/images/Character_Black/Black_StartJump.png')
+		this.load.image('black_jump2', 'assets/images/Character_Black/Black_Jump1.png')
+		this.load.image('black_jump3', 'assets/images/Character_Black/Black_Jump2.png')
+		this.load.image('black_jump4', 'assets/images/Character_Black/Black_Jump3.png')
+		this.load.image('black_jump5', 'assets/images/Character_Black/Black_EndJump.png')
 	}
 
 	create () {
@@ -27,6 +37,19 @@ export default class SplashScene extends Phaser.Scene {
         })
 
 		this.anims.create({
+            key: 'white_jump',
+            frames: [
+                { key: 'white_jump1' },
+                { key: 'white_jump2' },
+                { key: 'white_jump3' },
+                { key: 'white_jump4' },
+                { key: 'white_jump5' }
+            ],
+            frameRate: 6,
+            repeat: 0
+        })
+
+		this.anims.create({
             key: 'black_run',
             frames: [
                 { key: 'black_run1' },
@@ -35,6 +58,19 @@ export default class SplashScene extends Phaser.Scene {
             ],
             frameRate: 8,
             repeat: -1
+        })
+
+		this.anims.create({
+            key: 'black_jump',
+            frames: [
+                { key: 'black_jump1' },
+                { key: 'black_jump2' },
+                { key: 'black_jump3' },
+                { key: 'black_jump4' },
+                { key: 'black_jump5' }
+            ],
+            frameRate: 6,
+            repeat: 0
         })
 		
 		this.scene.start('Main')
