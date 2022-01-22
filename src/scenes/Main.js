@@ -1,3 +1,21 @@
+class Character extends Phaser.GameObjects.Container {
+	constructor (scene) {
+		super(scene)
+		
+		const overworldCharacter = new Phaser.GameObjects.Image(scene, 0, 0, 'character')
+		overworldCharacter.setOrigin(0, 1)
+		this.overworldCharacter = overworldCharacter
+
+		const underworldCharacter = new Phaser.GameObjects.Image(scene, 0, 0, 'character')
+		underworldCharacter.setOrigin(0, 1)
+		underworldCharacter.setScale(1, -1)
+		this.underworldCharacter = underworldCharacter
+		
+		this.add(overworldCharacter)
+		this.add(underworldCharacter)
+	}
+}
+
 export default class MainScene extends Phaser.Scene {
 	constructor () {
 		super({ key: 'Main' })
@@ -21,5 +39,9 @@ export default class MainScene extends Phaser.Scene {
 		
 		this.add.existing(text)
 		this.add.existing(scoreText)
+		
+		const character = new Character(this)
+		character.setPosition(50, height / 2)
+		this.add.existing(character)
 	}
 }
