@@ -18,6 +18,7 @@ class Character extends Phaser.GameObjects.Container {
 		this.underworldCharacter = underworldCharacter
 		
 		this.speed = 0
+		this.jumped = false
 		
 		this.add(overworldCharacter)
 		this.add(underworldCharacter)
@@ -26,6 +27,9 @@ class Character extends Phaser.GameObjects.Container {
 	jump () {
 		if (this.isOnFloor()) {
 			this.speed = -800
+			this.overworldCharacter.play('white_jump')
+			this.underworldCharacter.play('black_jump')
+			this.jumped = true
 		}
 	}
 	
@@ -43,6 +47,11 @@ class Character extends Phaser.GameObjects.Container {
 		if (this.overworldCharacter.y >= 0) {
 			this.overworldCharacter.y = 0
 			this.speed = 0
+			if (this.jumped) {
+				this.overworldCharacter.play('white_run')
+				this.underworldCharacter.play('black_run')
+				this.jumped = false
+			}
 		}
 		
 		this.underworldCharacter.y = -this.overworldCharacter.y
@@ -117,8 +126,8 @@ export default class MainScene extends Phaser.Scene {
 
 	update (time, deltaTime) {
 		const { width, height } = this.sys.canvas	
-		this.bgimage.x -= 10;
-		this.bgimage2.x -= 10;
+		this.bgimage.x -= 1;
+		this.bgimage2.x -= 1;
 		if (this.bgimage.x<= -width / 2)
 			this.bgimage.x=width / 2 + width
 		if (this.bgimage2.x<= -width / 2)
