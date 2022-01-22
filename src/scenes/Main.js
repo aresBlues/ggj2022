@@ -4,13 +4,17 @@ class Character extends Phaser.GameObjects.Container {
 	constructor (scene) {
 		super(scene)
 		
-		const overworldCharacter = new Phaser.GameObjects.Image(scene, 0, 0, 'character')
+		const overworldCharacter = new Phaser.GameObjects.Sprite(scene, 0, 0, 'white_run1')
 		overworldCharacter.setOrigin(0, 1)
+		overworldCharacter.play('white_run')
+		scene.add.updateList.add(overworldCharacter)
 		this.overworldCharacter = overworldCharacter
 
-		const underworldCharacter = new Phaser.GameObjects.Image(scene, 0, 0, 'character')
+		const underworldCharacter = new Phaser.GameObjects.Sprite(scene, 0, 0, 'black_run1')
 		underworldCharacter.setOrigin(0, 1)
 		underworldCharacter.setScale(1, -1)
+		underworldCharacter.play('black_run')
+		scene.add.updateList.add(underworldCharacter)
 		this.underworldCharacter = underworldCharacter
 		
 		this.speed = 0
