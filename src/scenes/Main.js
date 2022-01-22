@@ -126,8 +126,8 @@ export default class MainScene extends Phaser.Scene {
 
 	update (time, deltaTime) {
 		const { width, height } = this.sys.canvas	
-		this.bgimage.x -= 1;
-		this.bgimage2.x -= 1;
+		this.bgimage.x += -100 * deltaTime / 1000;
+		this.bgimage2.x += -100 * deltaTime / 1000;
 		if (this.bgimage.x<= -width / 2)
 			this.bgimage.x=width / 2 + width
 		if (this.bgimage2.x<= -width / 2)
