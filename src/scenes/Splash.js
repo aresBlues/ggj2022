@@ -22,6 +22,11 @@ export default class SplashScene extends Phaser.Scene {
 		this.load.image('black_jump3', 'assets/images/Character_Black/Black_Jump2.png')
 		this.load.image('black_jump4', 'assets/images/Character_Black/Black_Jump3.png')
 		this.load.image('black_jump5', 'assets/images/Character_Black/Black_EndJump.png')
+		this.load.image('obstacle1', 'assets/images/Obstacles/Branch.png')
+		this.load.image('obstacle2', 'assets/images/Obstacles/Fire1.png')
+		this.load.image('obstacle3', 'assets/images/Obstacles/RedStone.png')
+		this.load.image('fire2', 'assets/images/Obstacles/Fire2.png')
+		this.load.image('fire3', 'assets/images/Obstacles/Fire3.png')
 	}
 
 	create () {
@@ -71,6 +76,17 @@ export default class SplashScene extends Phaser.Scene {
             ],
             frameRate: 6,
             repeat: 0
+        })
+
+		this.anims.create({
+            key: 'fire',
+            frames: [
+                { key: 'obstacle2' },
+                { key: 'fire2' },
+                { key: 'fire3' }
+            ],
+            frameRate: 8,
+            repeat: -1
         })
 		
 		this.scene.start('Main')
