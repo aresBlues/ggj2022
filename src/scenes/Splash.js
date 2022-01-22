@@ -4,6 +4,7 @@ export default class SplashScene extends Phaser.Scene {
 	}
 
 	preload () {
+		this.load.image('bg', '/assets/images/FirstBackground.png');
 	}
 
 	create () {
