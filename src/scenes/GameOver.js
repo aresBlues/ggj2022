@@ -30,11 +30,11 @@ export default class GameOver extends Phaser.Scene {
 				color: '#000'
 			}
 		)
+		startButton.setOrigin(0.5, 0.5)
 		startButton.setInteractive()
 		startButton.on('pointerdown', () => {
 			this.scene.start('Main')
 		})
-		startButton.setOrigin(0.5, 0.5)
 		
 		const mainMenuButton = new Phaser.GameObjects.Text(
 			this,
@@ -48,6 +48,10 @@ export default class GameOver extends Phaser.Scene {
 			}
 		)
 		mainMenuButton.setOrigin(0.5, 0.5)
+		mainMenuButton.setInteractive()
+		mainMenuButton.on('pointerdown', () => {
+			this.scene.start('Menu')
+		})
 		
 		this.add.existing(nameText)
 		this.add.existing(startButton)
