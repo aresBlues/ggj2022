@@ -57,6 +57,22 @@ class Character extends Phaser.GameObjects.Container {
 		
 		this.underworldCharacter.y = -this.overworldCharacter.y
 	}
+	
+	getWidth () {
+		return this.overworldCharacter.width
+	}
+
+	getHeight () {
+		return this.overworldCharacter.height
+	}
+	
+	getY () {
+		return this.y + this.overworldCharacter.y
+	}
+
+	getX () {
+		return this.x + this.overworldCharacter.x
+	}
 }
 
 class Obstacle extends Phaser.GameObjects.Sprite {
@@ -165,6 +181,27 @@ export default class MainScene extends Phaser.Scene {
 			if (index !== -1) {
 				this.obstacles.splice(index, 1)
 			}
+		}
+		
+		let collisionDetected = false
+		
+		const characterWidth = this.character.getWidth()
+		const characterX = this.character.getX() + characterWidth / 2
+		const characterY = this.character.getY()
+		
+		for (const obstacle of this.obstacles) {
+			const dx = characterX - (obstacle.x + obstacle.width / 2)
+			const dy = characterY - obstacle.y
+			const distance = dx * dx + dy * dy
+			const minimumDistance = (characterWidth / 2 + obstacle.width / 2) * 0.8
+			
+			if (distance < minimumDistance * minimumDistance) {
+				collisionDetected = true
+			}
+		}
+		
+		if (collisionDetected) {
+			console.log('Game Over')
 		}
 	}
 }
