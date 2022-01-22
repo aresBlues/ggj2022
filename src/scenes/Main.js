@@ -1,3 +1,50 @@
+const GRAVITATION = 2000
+
+class Character extends Phaser.GameObjects.Container {
+	constructor (scene) {
+		super(scene)
+		
+		const overworldCharacter = new Phaser.GameObjects.Image(scene, 0, 0, 'character')
+		overworldCharacter.setOrigin(0, 1)
+		this.overworldCharacter = overworldCharacter
+
+		const underworldCharacter = new Phaser.GameObjects.Image(scene, 0, 0, 'character')
+		underworldCharacter.setOrigin(0, 1)
+		underworldCharacter.setScale(1, -1)
+		this.underworldCharacter = underworldCharacter
+		
+		this.speed = 0
+		
+		this.add(overworldCharacter)
+		this.add(underworldCharacter)
+	}
+	
+	jump () {
+		if (this.isOnFloor()) {
+			this.speed = -800
+		}
+	}
+	
+	isOnFloor () {
+		return this.overworldCharacter.y >= 0
+	}
+	
+	updatePosition (deltaTime) {
+		const dy = this.speed * deltaTime / 1000
+		const dv = GRAVITATION * deltaTime / 1000
+		
+		this.overworldCharacter.y += dy
+		this.speed += dv
+		
+		if (this.overworldCharacter.y >= 0) {
+			this.overworldCharacter.y = 0
+			this.speed = 0
+		}
+		
+		this.underworldCharacter.y = -this.overworldCharacter.y
+	}
+}
+
 export default class MainScene extends Phaser.Scene {
 	constructor () {
 		super({ key: 'Main' })
@@ -24,14 +71,27 @@ export default class MainScene extends Phaser.Scene {
 		this.add.existing(scoreText)
 		this.bgimage=this.add.sprite(width / 2, height / 2,'bg')
 		this.bgimage2=this.add.sprite(width / 2 + width, height / 2,'bg')
+		
+		const character = new Character(this)
+		character.setPosition(50, height / 2)
+		this.character = character
+		
+		this.add.existing(character)
+		
+		this.input.on('pointerdown', () => {
+			this.character.jump()
+		})
 	}
-	update() {
+
+	update (time, deltaTime) {
 		const { width, height } = this.sys.canvas	
 		this.bgimage.x -= 10;
 		this.bgimage2.x -= 10;
 		if (this.bgimage.x<= -width / 2)
 			this.bgimage.x=width / 2 + width
 		if (this.bgimage2.x<= -width / 2)
-			this.bgimage2.x=width / 2 + width		
+			this.bgimage2.x=width / 2 + width
+		
+		this.character.updatePosition(deltaTime)
 	}
 }
