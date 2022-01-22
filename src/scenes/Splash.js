@@ -106,6 +106,6 @@ export default class SplashScene extends Phaser.Scene {
             repeat: -1
         })
 		
-		this.scene.start('Main')
+		this.scene.start('Menu')
 	}
 }

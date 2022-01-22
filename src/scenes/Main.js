@@ -114,11 +114,8 @@ class Background extends Phaser.GameObjects.Sprite {
 			this.setScale(-0.1, 0.1)
 		}
 		
-		
-			
-			
-			this.play('crow')
-			scene.add.updateList.add(this)
+		this.play('crow')
+		scene.add.updateList.add(this)
 		
 		
 		this.setOrigin(0, 1)
@@ -156,14 +153,14 @@ export default class MainScene extends Phaser.Scene {
 		})
 		
 		this.obstacles = []
-		this.background = []
+		this.backgroundObjects = []
 		
 		const BackgroundSpawn = this.time.addEvent({
 			delay: 4000,
 			callback: () => {
-				const obstacle = new Background(this)
-				this.add.existing(obstacle)
-				this.obstacles.push(obstacle)
+				const object = new Background(this)
+				this.add.existing(object)
+				this.backgroundObjects.push(object)
 			},
 			loop: true
 		})
@@ -197,6 +194,27 @@ export default class MainScene extends Phaser.Scene {
 			background.setTexture('bg' + nextBackground)
 		}
 	}
+	
+	updateObjects (objects, deltaTime) {
+		const despawnObjects = []
+		
+		for (const object of objects) {
+			object.updatePosition(deltaTime)
+			
+			if (object.x < -object.width) {
+				object.destroy()
+				despawnObjects.push(object)
+			}
+		}
+		
+		for (const object of despawnObjects) {
+			const index = objects.indexOf(object)
+			
+			if (index !== -1) {
+				objects.splice(index, 1)
+			}
+		}
+	}
 
 	update (time, deltaTime) {
 		this.bgimage.x += -RUNNING_SPEED * deltaTime / 1000;
@@ -207,24 +225,8 @@ export default class MainScene extends Phaser.Scene {
 		
 		this.character.updatePosition(deltaTime)
 		
-		const despawnObstacles = []
-		
-		for (const obstacle of this.obstacles) {
-			obstacle.updatePosition(deltaTime)
-			
-			if (obstacle.x < -obstacle.width) {
-				obstacle.destroy()
-				despawnObstacles.push(obstacle)
-			}
-		}
-		
-		for (const obstacle of despawnObstacles) {
-			const index = this.obstacles.indexOf(obstacle)
-			
-			if (index !== -1) {
-				this.obstacles.splice(index, 1)
-			}
-		}
+		this.updateObjects(this.obstacles, deltaTime)
+		this.updateObjects(this.backgroundObjects, deltaTime)
 		
 		let collisionDetected = false
 		
@@ -244,7 +246,7 @@ export default class MainScene extends Phaser.Scene {
 		}
 		
 		if (collisionDetected) {
-			console.log('Game Over')
+			this.scene.start('GameOver')
 		}
 	}
 }

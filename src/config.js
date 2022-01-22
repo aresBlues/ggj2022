@@ -4,6 +4,9 @@ import Bowser from 'bowser'
 import BootScene from './scenes/Boot'
 import MainScene from './scenes/Main'
 import SplashScene from './scenes/Splash'
+import MenuScene from './scenes/Menu'
+import GameOverScene from './scenes/GameOver'
+import CreditsScene from './scenes/Credits'
 
 const DEFAULT_WIDTH = 1920
 const DEFAULT_HEIGHT = 1080
@@ -18,6 +21,6 @@ export default {
 		width: DEFAULT_WIDTH,
 		height: DEFAULT_HEIGHT
 	},
-	scene: [BootScene, SplashScene, MainScene],
+	scene: [BootScene, SplashScene, MainScene, MenuScene, GameOverScene, CreditsScene],
 	webfonts: []
 }
