@@ -32,6 +32,9 @@ export default class SplashScene extends Phaser.Scene {
 		this.load.image('raven1','assets/images/Crow/raven-black0001.png')
 		this.load.image('raven2','assets/images/Crow/raven-black0008.png')
 		this.load.image('raven3','assets/images/Crow/raven-black0010.png')
+        this.load.image('dove1','assets/images/CrowInversed/frame0000.png')
+		this.load.image('dove2','assets/images/CrowInversed/frame0004.png')
+		this.load.image('dove3','assets/images/CrowInversed/frame0006.png')
         this.load.image('fore1','assets/images/Layers/Forest_Foreground.png')
         this.load.image('sky1','assets/images/Layers/ForestBackground.png')
         this.load.image('middleG','assets/images/Layers/MiddleGrass.png')
@@ -58,6 +61,11 @@ export default class SplashScene extends Phaser.Scene {
 		this.load.image('collectible3','assets/images/Collectables/HandMirror.png')
 		this.load.image('collectible4','assets/images/Collectables/Lamp.png')
 		this.load.image('collectible5','assets/images/Collectables/Umbrella.png')
+		
+		this.load.audio('footsteps', 'assets/sounds/footsteps1.mp3');
+		this.load.audio('track1', 'assets/sounds/track1.mp3');
+		this.load.audio('track2', 'assets/sounds/track2.mp3');
+		this.load.audio('track3', 'assets/sounds/track3.mp3');
 	}
 
 	create () {
@@ -126,6 +134,17 @@ export default class SplashScene extends Phaser.Scene {
                 { key: 'raven1' },
                 { key: 'raven2' },
 				{ key: 'raven3' }
+                
+            ],
+            frameRate: 8,
+            repeat: -1
+        })
+        this.anims.create({
+            key: 'dove',
+            frames: [
+                { key: 'dove1' },
+                { key: 'dove2' },
+				{ key: 'dove3' }
                 
             ],
             frameRate: 8,

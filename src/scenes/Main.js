@@ -33,6 +33,9 @@ class Character extends Phaser.GameObjects.Container {
 		
 		this.add(overworldCharacter)
 		this.add(underworldCharacter)
+		
+		this.footsteps = scene.sound.add('footsteps');
+		this.sound_plyed = false;
 	}
 	
 	jump () {
@@ -77,6 +80,18 @@ class Character extends Phaser.GameObjects.Container {
 				this.jumped = false
 				this.doubleJumped = false
 			}
+		}
+		
+		if(this.sound_plyed === false && this.isOnFloor()) {
+			this.footsteps.play({
+				loop: true
+			});
+			this.sound_plyed = true;
+		}	
+		
+		if(!this.isOnFloor()) {
+			this.sound_plyed = false
+			this.footsteps.pause();
 		}
 		
 		this.underworldCharacter.y = -this.overworldCharacter.y
@@ -156,16 +171,16 @@ class Background extends Phaser.GameObjects.Sprite {
 		if (Math.random() >= 0.5) {
 			super(scene, width, height * 7/8, 'obstacle' + index)
 			this.setScale(-0.1, -0.1)
+			this.play('crow')
 		}
 		else {
 			super(scene, width, height / 8, 'obstacle' + index)
 			this.setScale(-0.1, 0.1)
+			this.play('dove')
 		}
 		
-		this.play('crow')
+		
 		scene.add.updateList.add(this)
-		
-		
 		this.setOrigin(0, 1)
 		this.speed = speed
 	}
@@ -252,6 +267,11 @@ export default class MainScene extends Phaser.Scene {
 			loop: true
 		})
 		this.add.existing(scoreText)
+		
+		this.track = this.sound.add('track2');
+		this.track.play({
+				loop: true
+			});
 		this.spawnObstacle()
 		
 		this.createCollectibleSpawnTimer()
@@ -445,7 +465,10 @@ export default class MainScene extends Phaser.Scene {
 		}
 		
 		if (collisionDetected) {
+			this.character.footsteps.pause()
+			this.track.pause()
 			this.scene.start('GameOver')
+			
 		}
 	}
 }

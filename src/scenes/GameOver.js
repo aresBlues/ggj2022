@@ -9,7 +9,6 @@ export default class GameOver extends Phaser.Scene {
 	create () {
 		const { width } = this.sys.canvas
 		
-
 		const startButton = new Button(
 			this,
 			450,
@@ -19,6 +18,12 @@ export default class GameOver extends Phaser.Scene {
 			}
 		)
 		startButton.setPosition(width / 2, 500)
+		startButton.setOrigin(0.5, 0.5)
+		startButton.setInteractive()
+		startButton.on('pointerdown', () => {
+			this.scene.start('Main')
+			this.track.pause()
+		})
 		
 		const mainMenuButton = new Button(
 			this,
@@ -29,10 +34,21 @@ export default class GameOver extends Phaser.Scene {
 			}
 		)
 		mainMenuButton.setPosition(width / 2, 700)
+		mainMenuButton.setOrigin(0.5, 0.5)
+		mainMenuButton.setInteractive()
+		mainMenuButton.on('pointerdown', () => {
+			this.scene.start('Menu')
+			this.track.pause()
+		})
 
 
 		this.add.image(width / 2, 540, 'gameOver');
+		
 		this.add.existing(startButton)
 		this.add.existing(mainMenuButton)
+		this.track = this.sound.add('track3');
+		this.track.play({
+				loop: true
+			});
 	}
 }
