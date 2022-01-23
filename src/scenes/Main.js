@@ -1,9 +1,10 @@
-const GRAVITATION = 1500
+const GRAVITATION = 250
+const JUMP_ACCELERATION = 250
 const RUNNING_SPEED = 350
 const ENABLE_LONG_JUMP = true
 const ENABLE_DOUBLE_JUMP = false
-const JUMP_SPEED = ENABLE_LONG_JUMP ? -500 : -700
-const MAXIMUM_LONG_JUMP_TIME = 250
+const JUMP_SPEED = ENABLE_LONG_JUMP ? -200 : -700
+const MAXIMUM_LONG_JUMP_TIME = 400
 const COLLECTIBLE_MIN_SPAWN_TIME = 3000
 const COLLECTIBLE_MAX_SPAWN_TIME = 5000
 const COLLECTIBLE_OFFSET = 300
@@ -55,7 +56,7 @@ class Character extends Phaser.GameObjects.Container {
 	
 	updatePosition (deltaTime) {
 		const dy = this.speed * deltaTime / 1000
-		const dv = (this.jumping ? -GRAVITATION : GRAVITATION) * deltaTime / 1000
+		const dv = (this.jumping ? -JUMP_ACCELERATION : GRAVITATION) * deltaTime / 300
 		
 		this.overworldCharacter.y += dy
 		this.speed += dv
@@ -206,6 +207,7 @@ export default class MainScene extends Phaser.Scene {
 		this.input.on('pointerdown', () => {
 			this.character.jump()
 		})
+		
 
 		this.input.on('pointerup', () => {
 			this.character.jumping = false
