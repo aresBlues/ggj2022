@@ -1,3 +1,5 @@
+import config from '../config'
+
 export default class GameOver extends Phaser.Scene {
 	constructor () {
 		super({ key: 'GameOver' })
@@ -11,11 +13,7 @@ export default class GameOver extends Phaser.Scene {
 			width / 2,
 			200,
 			'Game Over :(',
-			{
-				fontSize: '50px',
-				fontFamily: '"Lato"',
-				color: '#000'
-			}
+			config.menuFontStyle
 		)
 		nameText.setOrigin(0.5, 0)
 
@@ -24,11 +22,7 @@ export default class GameOver extends Phaser.Scene {
 			width / 2,
 			500,
 			'Restart Game',
-			{
-				fontSize: '50px',
-				fontFamily: '"Lato"',
-				color: '#000'
-			}
+			config.menuFontStyle
 		)
 		startButton.setOrigin(0.5, 0.5)
 		startButton.setInteractive()
@@ -41,11 +35,7 @@ export default class GameOver extends Phaser.Scene {
 			width / 2,
 			700,
 			'Main Menu',
-			{
-				fontSize: '50px',
-				fontFamily: '"Lato"',
-				color: '#000'
-			}
+			config.menuFontStyle
 		)
 		mainMenuButton.setOrigin(0.5, 0.5)
 		mainMenuButton.setInteractive()

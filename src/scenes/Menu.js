@@ -1,3 +1,6 @@
+import config from '../config'
+import Button from '../objects/Button'
+
 export default class Menu extends Phaser.Scene {
 	constructor () {
 		super({ key: 'Menu' })
@@ -11,47 +14,29 @@ export default class Menu extends Phaser.Scene {
 			width / 2,
 			200,
 			'Awesome Jumping Game',
-			{
-				fontSize: '50px',
-				fontFamily: '"Lato"',
-				color: '#000'
-			}
+			config.menuFontStyle
 		)
 		nameText.setOrigin(0.5, 0)
 
-		const startButton = new Phaser.GameObjects.Text(
+		const startButton = new Button(
 			this,
-			width / 2,
-			500,
+			450,
 			'Start Game',
-			{
-				fontSize: '50px',
-				fontFamily: '"Lato"',
-				color: '#000'
+			() => {
+				this.scene.start('Main')
 			}
 		)
-		startButton.setOrigin(0.5, 0.5)
-		startButton.setInteractive()
-		startButton.on('pointerdown', () => {
-			this.scene.start('Main')
-		})
+		startButton.setPosition(width / 2, 500)
 		
-		const creditsButton = new Phaser.GameObjects.Text(
+		const creditsButton = new Button(
 			this,
-			width / 2,
-			700,
+			450,
 			'Credits',
-			{
-				fontSize: '50px',
-				fontFamily: '"Lato"',
-				color: '#000'
+			() => {
+				this.scene.start('Credits')
 			}
 		)
-		creditsButton.setOrigin(0.5, 0.5)
-		creditsButton.setInteractive()
-		creditsButton.on('pointerdown', () => {
-			this.scene.start('Credits')
-		})
+		creditsButton.setPosition(width / 2, 700)
 		
 		this.add.existing(nameText)
 		this.add.existing(startButton)

@@ -22,5 +22,11 @@ export default {
 		height: DEFAULT_HEIGHT
 	},
 	scene: [BootScene, SplashScene, MainScene, MenuScene, GameOverScene, CreditsScene],
-	webfonts: []
+	webfonts: [],
+	menuFontStyle: {
+		fontSize: '50px',
+		fontFamily: '"Amatic SC"',
+		fontStyle: '700',
+		color: '#000'
+	}
 }

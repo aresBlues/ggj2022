@@ -40,7 +40,15 @@ export default class SplashScene extends Phaser.Scene {
         this.load.image('sky3','assets/images/Layers/TownArea_Background.png')
         this.load.image('fore3','assets/images/Layers/TownArea_Foreground.png')
         this.load.image('fore4','assets/images/Layers/TownArea2_Foreground.png')
-       
+		this.load.image('buttonBackground450','assets/images/Buttons/ButtonDisable_450px.png')
+		this.load.image('buttonBackground600','assets/images/Buttons/ButtonDisable_600px.png')
+		this.load.image('buttonBackground735','assets/images/Buttons/ButtonDisable_735px.png')
+		this.load.image('buttonBackgroundClicked450','assets/images/Buttons/ButtonClicked_450px.png')
+		this.load.image('buttonBackgroundClicked600','assets/images/Buttons/ButtonClicked_600px.png')
+		this.load.image('buttonBackgroundClicked735','assets/images/Buttons/ButtonClicked_735px.png')
+		this.load.image('buttonBackgroundHover450','assets/images/Buttons/ButtonHover_450px.png')
+		this.load.image('buttonBackgroundHover600','assets/images/Buttons/ButtonHover_600px.png')
+		this.load.image('buttonBackgroundHover735','assets/images/Buttons/ButtonHover_735px.png')
 	}
 
 	create () {

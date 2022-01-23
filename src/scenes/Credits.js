@@ -1,3 +1,5 @@
+import config from '../config'
+
 export default class Credits extends Phaser.Scene {
 	constructor () {
 		super({ key: 'Credits' })
@@ -11,11 +13,7 @@ export default class Credits extends Phaser.Scene {
 			width / 2,
 			200,
 			'Credits',
-			{
-				fontSize: '50px',
-				fontFamily: '"Lato"',
-				color: '#000'
-			}
+			config.menuFontStyle
 		)
 		creditsText.setOrigin(0.5, 0)
 
@@ -24,11 +22,7 @@ export default class Credits extends Phaser.Scene {
 			width / 4,
 			400,
 			'Game Art',
-			{
-				fontSize: '50px',
-				fontFamily: '"Lato"',
-				color: '#000'
-			}
+			config.menuFontStyle
 		)
 		artText.setOrigin(0.5, 0)
 
@@ -37,11 +31,7 @@ export default class Credits extends Phaser.Scene {
 			width / 4,
 			500,
 			'Sandra',
-			{
-				fontSize: '50px',
-				fontFamily: '"Lato"',
-				color: '#000'
-			}
+			config.menuFontStyle
 		)
 		artist1Text.setOrigin(0.5, 0)
 	
@@ -50,11 +40,7 @@ export default class Credits extends Phaser.Scene {
 			width / 4,
 			600,
 			'Ivan',
-			{
-				fontSize: '50px',
-				fontFamily: '"Lato"',
-				color: '#000'
-			}
+			config.menuFontStyle
 		)
 		artist2Text.setOrigin(0.5, 0)
 
@@ -63,11 +49,7 @@ export default class Credits extends Phaser.Scene {
 			width * 3 / 4,
 			400,
 			'Programming',
-			{
-				fontSize: '50px',
-				fontFamily: '"Lato"',
-				color: '#000'
-			}
+			config.menuFontStyle
 		)
 		programmerText.setOrigin(0.5, 0)
 
@@ -76,11 +58,7 @@ export default class Credits extends Phaser.Scene {
 			width * 3 / 4,
 			500,
 			'Ares',
-			{
-				fontSize: '50px',
-				fontFamily: '"Lato"',
-				color: '#000'
-			}
+			config.menuFontStyle
 		)
 		programmer1Text.setOrigin(0.5, 0)
 	
@@ -89,11 +67,7 @@ export default class Credits extends Phaser.Scene {
 			width * 3 / 4,
 			600,
 			'Christian',
-			{
-				fontSize: '50px',
-				fontFamily: '"Lato"',
-				color: '#000'
-			}
+			config.menuFontStyle
 		)
 		programmer2Text.setOrigin(0.5, 0)
 
@@ -102,11 +76,7 @@ export default class Credits extends Phaser.Scene {
 			width / 2,
 			800,
 			'Continue to Main Menu',
-			{
-				fontSize: '50px',
-				fontFamily: '"Lato"',
-				color: '#000'
-			}
+			config.menuFontStyle
 		)
 		continueButton.setOrigin(0.5, 0)
 		continueButton.setInteractive()

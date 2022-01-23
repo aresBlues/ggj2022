@@ -14,7 +14,7 @@ export default class extends Phaser.Scene {
 	preload () {
 		WebFont.load({
 			custom: {
-				families: ['Luckiest Guy', 'Lato'],
+				families: ['Amatic SC:n4,n7', 'Neonderthaw'],
 				urls: ['assets/fonts/fonts.css']
 			},
 			active: this.fontsLoaded.bind(this)
