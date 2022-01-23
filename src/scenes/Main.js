@@ -156,6 +156,10 @@ export default class MainScene extends Phaser.Scene {
 	}
 
 	create () {
+		this.score = 0
+		const scoreText = new Phaser.GameObjects.Text(this, 80, 0, '0', { fontFamily: '"Amatic SC"', fontSize: '80px', color: '#000', fontStyle: '700' })
+		scoreText.setOrigin(0, 0)
+		this.scoreText = scoreText
 		const { width, height } = this.sys.canvas
 		this.availableForegrounds = [1, 2, 3, 4]
 		this.usedForegrounds = []
@@ -168,6 +172,7 @@ export default class MainScene extends Phaser.Scene {
 		this.bgimage = this.add.sprite(width / 2, height / 2, 'fore' + this.selectRandomForeground())
 		this.bgimage2 = this.add.sprite(width / 2 + width, height / 2,'fore' + this.selectRandomForeground())
 		// grass
+
 		this.grass = this.add.sprite(width / 2, height / 2, 'middleG')
 		this.grass2 = this.add.sprite(width / 2 + width, height / 2,'middleG' )
 		const character = new Character(this)
@@ -220,6 +225,7 @@ export default class MainScene extends Phaser.Scene {
 			loop: true
 		})
 		this.spawnObstacle()
+		this.add.existing(scoreText)
 	}
 	
 	updateSpeed () {
@@ -308,6 +314,7 @@ export default class MainScene extends Phaser.Scene {
 	}
 
 	update (time, deltaTime) {
+		this.score+=1
 		this.bgimage.x += -this.runningSpeed * deltaTime * 0.7 / 1000;
 		this.bgimage2.x += -this.runningSpeed * deltaTime * 0.7 / 1000;
 		this.grass.x += -this.runningSpeed * deltaTime / 1000;
@@ -320,7 +327,7 @@ export default class MainScene extends Phaser.Scene {
 		this.resetForeground(this.bgimage2)
 		this.resetBackground(this.backimage)
 		this.resetBackground(this.backimage2)
-		
+		this.scoreText.text = this.score;
 		
 		this.character.updatePosition(deltaTime)
 		
