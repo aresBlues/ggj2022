@@ -1,5 +1,9 @@
 const GRAVITATION = 1500
 const RUNNING_SPEED = 350
+const ENABLE_LONG_JUMP = true
+const ENABLE_DOUBLE_JUMP = false
+const JUMP_SPEED = ENABLE_LONG_JUMP ? -500 : -700
+const MAXIMUM_LONG_JUMP_TIME = 250
 
 class Character extends Phaser.GameObjects.Container {
 	constructor (scene) {
@@ -20,17 +24,25 @@ class Character extends Phaser.GameObjects.Container {
 		
 		this.speed = 0
 		this.jumped = false
+		this.jumping = false
+		this.doubleJumped = false
+		this.longJumpTime = 0
 		
 		this.add(overworldCharacter)
 		this.add(underworldCharacter)
 	}
 	
 	jump () {
-		if (this.isOnFloor()) {
-			this.speed = -700
+		if (this.isOnFloor() || (this.jumped && ENABLE_DOUBLE_JUMP && !this.doubleJumped)) {
+			this.speed = JUMP_SPEED
 			this.overworldCharacter.play('white_jump')
 			this.underworldCharacter.play('black_jump')
+			if (this.jumped && ENABLE_DOUBLE_JUMP) {
+				this.doubleJumped = true
+			}
 			this.jumped = true
+			this.jumping = ENABLE_LONG_JUMP
+			this.longJumpTime = 0
 		}
 	}
 	
@@ -40,10 +52,18 @@ class Character extends Phaser.GameObjects.Container {
 	
 	updatePosition (deltaTime) {
 		const dy = this.speed * deltaTime / 1000
-		const dv = GRAVITATION * deltaTime / 1000
+		const dv = (this.jumping ? -GRAVITATION : GRAVITATION) * deltaTime / 1000
 		
 		this.overworldCharacter.y += dy
 		this.speed += dv
+		
+		if (this.jumping) {
+			this.longJumpTime += deltaTime
+			
+			if (this.longJumpTime > MAXIMUM_LONG_JUMP_TIME) {
+				this.jumping = false
+			}
+		}
 		
 		if (this.overworldCharacter.y >= 0) {
 			this.overworldCharacter.y = 0
@@ -52,6 +72,7 @@ class Character extends Phaser.GameObjects.Container {
 				this.overworldCharacter.play('white_run')
 				this.underworldCharacter.play('black_run')
 				this.jumped = false
+				this.doubleJumped = false
 			}
 		}
 		
@@ -150,6 +171,10 @@ export default class MainScene extends Phaser.Scene {
 		
 		this.input.on('pointerdown', () => {
 			this.character.jump()
+		})
+
+		this.input.on('pointerup', () => {
+			this.character.jumping = false
 		})
 		
 		this.obstacles = []
