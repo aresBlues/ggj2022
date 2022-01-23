@@ -1,5 +1,6 @@
 import config from '../config'
 import Button from '../objects/Button'
+import SoundControls from '../objects/SoundControls'
 
 export default class Menu extends Phaser.Scene {
 	constructor () {
@@ -40,5 +41,9 @@ export default class Menu extends Phaser.Scene {
 		this.track.play({
 				loop: true
 			});
+
+		const soundControls = new SoundControls(this)
+		soundControls.setPosition(width - 450, 50)
+		this.add.existing(soundControls)
 	}
 }
