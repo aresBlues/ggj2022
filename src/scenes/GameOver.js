@@ -1,4 +1,5 @@
 import config from '../config'
+import Button from '../objects/Button'
 
 export default class GameOver extends Phaser.Scene {
 	constructor () {
@@ -17,31 +18,25 @@ export default class GameOver extends Phaser.Scene {
 		)
 		nameText.setOrigin(0.5, 0)
 
-		const startButton = new Phaser.GameObjects.Text(
+		const startButton = new Button(
 			this,
-			width / 2,
-			500,
+			450,
 			'Restart Game',
-			config.menuFontStyle
+			() => {
+				this.scene.start('Main')
+			}
 		)
-		startButton.setOrigin(0.5, 0.5)
-		startButton.setInteractive()
-		startButton.on('pointerdown', () => {
-			this.scene.start('Main')
-		})
+		startButton.setPosition(width / 2, 500)
 		
-		const mainMenuButton = new Phaser.GameObjects.Text(
+		const mainMenuButton = new Button(
 			this,
-			width / 2,
-			700,
+			450,
 			'Main Menu',
-			config.menuFontStyle
+			() => {
+				this.scene.start('Menu')
+			}
 		)
-		mainMenuButton.setOrigin(0.5, 0.5)
-		mainMenuButton.setInteractive()
-		mainMenuButton.on('pointerdown', () => {
-			this.scene.start('Menu')
-		})
+		mainMenuButton.setPosition(width / 2, 700)
 		
 		this.add.existing(nameText)
 		this.add.existing(startButton)

@@ -1,4 +1,5 @@
 import config from '../config'
+import Button from '../objects/Button'
 
 export default class Credits extends Phaser.Scene {
 	constructor () {
@@ -31,7 +32,10 @@ export default class Credits extends Phaser.Scene {
 			width / 4,
 			500,
 			'Sandra',
-			config.menuFontStyle
+			{
+				...config.menuFontStyle,
+				fontStyle: '400'
+			}
 		)
 		artist1Text.setOrigin(0.5, 0)
 	
@@ -40,7 +44,10 @@ export default class Credits extends Phaser.Scene {
 			width / 4,
 			600,
 			'Ivan',
-			config.menuFontStyle
+			{
+				...config.menuFontStyle,
+				fontStyle: '400'
+			}
 		)
 		artist2Text.setOrigin(0.5, 0)
 
@@ -58,7 +65,10 @@ export default class Credits extends Phaser.Scene {
 			width * 3 / 4,
 			500,
 			'Ares',
-			config.menuFontStyle
+			{
+				...config.menuFontStyle,
+				fontStyle: '400'
+			}
 		)
 		programmer1Text.setOrigin(0.5, 0)
 	
@@ -67,22 +77,22 @@ export default class Credits extends Phaser.Scene {
 			width * 3 / 4,
 			600,
 			'Christian',
-			config.menuFontStyle
+			{
+				...config.menuFontStyle,
+				fontStyle: '400'
+			}
 		)
 		programmer2Text.setOrigin(0.5, 0)
 
-		const continueButton = new Phaser.GameObjects.Text(
+		const continueButton = new Button(
 			this,
-			width / 2,
-			800,
+			735,
 			'Continue to Main Menu',
-			config.menuFontStyle
+			() => {
+				this.scene.start('Menu')
+			}
 		)
-		continueButton.setOrigin(0.5, 0)
-		continueButton.setInteractive()
-		continueButton.on('pointerdown', () => {
-			this.scene.start('Menu')
-		})
+		continueButton.setPosition(width / 2, 850)
 		
 		this.add.existing(creditsText)
 		this.add.existing(artText)
