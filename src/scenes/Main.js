@@ -136,11 +136,17 @@ export default class MainScene extends Phaser.Scene {
 
 	create () {
 		const { width, height } = this.sys.canvas
-		this.availableBackgrounds = [1, 2, 3, 4]
+		this.availableForegrounds = [1, 2, 3, 4]
+		this.usedForegrounds = []
+		this.availableBackgrounds = [1,2,3]
 		this.usedBackgrounds = []
-		// create array for bgs
-		this.bgimage = this.add.sprite(width / 2, height / 2, 'bg' + this.selectRandomBackground())
-		this.bgimage2 = this.add.sprite(width / 2 + width, height / 2,'bg' + this.selectRandomBackground())
+		// background
+		this.backimage = this.add.sprite(width / 2, height / 2, 'sky' + this.selectRandomBackground())
+		this.backimage2 = this.add.sprite(width / 2 + width, height / 2, 'sky' + this.selectRandomBackground())
+		// foreground
+		this.bgimage = this.add.sprite(width / 2, height / 2, 'fore' + this.selectRandomForeground())
+		this.bgimage2 = this.add.sprite(width / 2 + width, height / 2,'fore' + this.selectRandomForeground())
+		// grass
 		this.grass = this.add.sprite(width / 2, height / 2, 'middleG')
 		this.grass2 = this.add.sprite(width / 2 + width, height / 2,'middleG' )
 		const character = new Character(this)
@@ -203,6 +209,15 @@ export default class MainScene extends Phaser.Scene {
 		this.obstacles.push(obstacle)
 	}
 	
+	selectRandomForeground () {
+		const index = Math.floor(Math.random() * this.availableForegrounds.length)
+		const foregroundId = this.availableForegrounds[index]
+		this.availableForegrounds.splice(index, 1)
+		this.usedForegrounds.push(foregroundId)
+		return foregroundId
+	}
+
+	
 	selectRandomBackground () {
 		const index = Math.floor(Math.random() * this.availableBackgrounds.length)
 		const backgroundId = this.availableBackgrounds[index]
@@ -210,7 +225,6 @@ export default class MainScene extends Phaser.Scene {
 		this.usedBackgrounds.push(backgroundId)
 		return backgroundId
 	}
-
 	/*
 	available [1, 2]
 	used      [4, 3]
@@ -223,15 +237,25 @@ export default class MainScene extends Phaser.Scene {
 			background.x += width * 2
 			const nextBackground = this.selectRandomBackground()
 			this.availableBackgrounds.push(this.usedBackgrounds.shift())
-			background.setTexture('bg' + nextBackground)
+			background.setTexture('sky' + nextBackground)
+		}
+	}
+	resetForeground (foreground) {
+		const { width } = this.sys.canvas
+		
+		if (foreground.x <= -width / 2) {
+			foreground.x += width * 2
+			const nextForeground = this.selectRandomForeground()
+			this.availableForegrounds.push(this.usedForegrounds.shift())
+			foreground.setTexture('fore' + nextForeground)
 		}
 	}
 
-	resetGrass (background) {
+	resetGrass (grass) {
 		const { width } = this.sys.canvas
 		
-		if (background.x <= -width / 2) {
-			background.x += width * 2
+		if (grass.x <= -width / 2) {
+			grass.x += width * 2
 			
 		}
 	}
@@ -259,14 +283,19 @@ export default class MainScene extends Phaser.Scene {
 	}
 
 	update (time, deltaTime) {
-		this.bgimage.x += -this.runningSpeed * deltaTime / 1000;
-		this.bgimage2.x += -this.runningSpeed * deltaTime / 1000;
-		this.grass.x += -this.runningSpeed * deltaTime *1.1 / 1000;
-		this.grass2.x += -this.runningSpeed * deltaTime *1.1 / 1000;
+		this.bgimage.x += -this.runningSpeed * deltaTime * 0.7 / 1000;
+		this.bgimage2.x += -this.runningSpeed * deltaTime * 0.7 / 1000;
+		this.grass.x += -this.runningSpeed * deltaTime / 1000;
+		this.grass2.x += -this.runningSpeed * deltaTime / 1000;
+		this.backimage.x += -this.runningSpeed * deltaTime * 0.5 / 1000;
+		this.backimage2.x += -this.runningSpeed * deltaTime * 0.5 / 1000;
 		this.resetGrass(this.grass)
 		this.resetGrass(this.grass2)
-		this.resetBackground(this.bgimage)
-		this.resetBackground(this.bgimage2)
+		this.resetForeground(this.bgimage)
+		this.resetForeground(this.bgimage2)
+		this.resetBackground(this.backimage)
+		this.resetBackground(this.backimage2)
+		
 		
 		this.character.updatePosition(deltaTime)
 		
