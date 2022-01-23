@@ -12,7 +12,7 @@ export default class Credits extends Phaser.Scene {
 		const creditsText = new Phaser.GameObjects.Text(
 			this,
 			width / 2,
-			200,
+			300,
 			'Credits',
 			config.menuFontStyle
 		)
@@ -20,7 +20,7 @@ export default class Credits extends Phaser.Scene {
 
 		const artText = new Phaser.GameObjects.Text(
 			this,
-			width / 4,
+			width / 3.5,
 			400,
 			'Game Art',
 			config.menuFontStyle
@@ -29,9 +29,9 @@ export default class Credits extends Phaser.Scene {
 
 		const artist1Text = new Phaser.GameObjects.Text(
 			this,
-			width / 4,
+			width / 3.5,
 			500,
-			'Sandra',
+			'Sandra Hillebrand',
 			{
 				...config.menuFontStyle,
 				fontStyle: '400'
@@ -41,9 +41,9 @@ export default class Credits extends Phaser.Scene {
 	
 		const artist2Text = new Phaser.GameObjects.Text(
 			this,
-			width / 4,
+			width / 3.5,
 			600,
-			'Ivan',
+			'Ivan Pavlov',
 			{
 				...config.menuFontStyle,
 				fontStyle: '400'
@@ -64,7 +64,7 @@ export default class Credits extends Phaser.Scene {
 			this,
 			width * 3 / 4,
 			500,
-			'Ares',
+			'Akshay Ganesh',
 			{
 				...config.menuFontStyle,
 				fontStyle: '400'
@@ -76,7 +76,7 @@ export default class Credits extends Phaser.Scene {
 			this,
 			width * 3 / 4,
 			600,
-			'Christian',
+			'Christian Dittrich',
 			{
 				...config.menuFontStyle,
 				fontStyle: '400'
@@ -93,7 +93,8 @@ export default class Credits extends Phaser.Scene {
 			}
 		)
 		continueButton.setPosition(width / 2, 850)
-		
+
+		this.add.image(width / 2, 540, 'backgroundCredits');
 		this.add.existing(creditsText)
 		this.add.existing(artText)
 		this.add.existing(artist1Text)

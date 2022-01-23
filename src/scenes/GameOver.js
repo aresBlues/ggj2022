@@ -9,14 +9,6 @@ export default class GameOver extends Phaser.Scene {
 	create () {
 		const { width } = this.sys.canvas
 		
-		const nameText = new Phaser.GameObjects.Text(
-			this,
-			width / 2,
-			200,
-			'Game Over :(',
-			config.menuFontStyle
-		)
-		nameText.setOrigin(0.5, 0)
 
 		const startButton = new Button(
 			this,
@@ -37,8 +29,9 @@ export default class GameOver extends Phaser.Scene {
 			}
 		)
 		mainMenuButton.setPosition(width / 2, 700)
-		
-		this.add.existing(nameText)
+
+
+		this.add.image(width / 2, 540, 'gameOver');
 		this.add.existing(startButton)
 		this.add.existing(mainMenuButton)
 	}

@@ -9,14 +9,6 @@ export default class Menu extends Phaser.Scene {
 	create () {
 		const { width } = this.sys.canvas
 		
-		const nameText = new Phaser.GameObjects.Text(
-			this,
-			width / 2,
-			200,
-			'Awesome Jumping Game',
-			config.menuFontStyle
-		)
-		nameText.setOrigin(0.5, 0)
 
 		const startButton = new Button(
 			this,
@@ -26,7 +18,7 @@ export default class Menu extends Phaser.Scene {
 				this.scene.start('Main')
 			}
 		)
-		startButton.setPosition(width / 2, 500)
+		startButton.setPosition(width / 2, 700)
 		
 		const creditsButton = new Button(
 			this,
@@ -36,9 +28,9 @@ export default class Menu extends Phaser.Scene {
 				this.scene.start('Credits')
 			}
 		)
-		creditsButton.setPosition(width / 2, 700)
-		
-		this.add.existing(nameText)
+		creditsButton.setPosition(width / 2, 900)
+
+		this.add.image(width / 2, 540, 'backgroundMenu');
 		this.add.existing(startButton)
 		this.add.existing(creditsButton)
 	}
