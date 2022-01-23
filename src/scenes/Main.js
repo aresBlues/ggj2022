@@ -374,7 +374,7 @@ export default class MainScene extends Phaser.Scene {
 		}
 		
 		collectible.destroy()
-		// TODO: add score
+		this.score+=200
 	}
 
 	update (time, deltaTime) {
