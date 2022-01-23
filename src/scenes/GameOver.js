@@ -14,6 +14,7 @@ export default class GameOver extends Phaser.Scene {
 			450,
 			'Restart Game',
 			() => {
+				this.track.pause()
 				this.scene.start('Main')
 			}
 		)
@@ -30,6 +31,7 @@ export default class GameOver extends Phaser.Scene {
 			450,
 			'Main Menu',
 			() => {
+				this.track.pause()
 				this.scene.start('Menu')
 			}
 		)
@@ -37,8 +39,8 @@ export default class GameOver extends Phaser.Scene {
 		mainMenuButton.setOrigin(0.5, 0.5)
 		mainMenuButton.setInteractive()
 		mainMenuButton.on('pointerdown', () => {
-			this.scene.start('Menu')
 			this.track.pause()
+			this.scene.start('Menu')
 		})
 
 
