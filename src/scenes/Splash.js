@@ -61,6 +61,11 @@ export default class SplashScene extends Phaser.Scene {
 		this.load.image('collectible3','assets/images/Collectables/HandMirror.png')
 		this.load.image('collectible4','assets/images/Collectables/Lamp.png')
 		this.load.image('collectible5','assets/images/Collectables/Umbrella.png')
+		
+		this.load.audio('footsteps', 'assets/sounds/footsteps1.mp3');
+		this.load.audio('track1', 'assets/sounds/track1.mp3');
+		this.load.audio('track2', 'assets/sounds/track2.mp3');
+		this.load.audio('track3', 'assets/sounds/track3.mp3');
 	}
 
 	create () {
