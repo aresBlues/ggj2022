@@ -156,16 +156,16 @@ class Background extends Phaser.GameObjects.Sprite {
 		if (Math.random() >= 0.5) {
 			super(scene, width, height * 7/8, 'obstacle' + index)
 			this.setScale(-0.1, -0.1)
+			this.play('crow')
 		}
 		else {
 			super(scene, width, height / 8, 'obstacle' + index)
 			this.setScale(-0.1, 0.1)
+			this.play('dove')
 		}
 		
-		this.play('crow')
+		
 		scene.add.updateList.add(this)
-		
-		
 		this.setOrigin(0, 1)
 		this.speed = speed
 	}
