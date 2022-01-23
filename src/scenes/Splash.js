@@ -52,6 +52,12 @@ export default class SplashScene extends Phaser.Scene {
         this.load.image('backgroundMenu', 'assets/images/BackgroundMenu.png')
         this.load.image('backgroundCredits', 'assets/images/CreditsBackground.png')
         this.load.image('gameOver', 'assets/images/GameOver.png')
+		this.load.image('buttonBackgroundHover735','assets/images/Buttons/ButtonHover_735px.png')
+		this.load.image('collectible1','assets/images/Collectables/Computer.png')
+		this.load.image('collectible2','assets/images/Collectables/glasses.png')
+		this.load.image('collectible3','assets/images/Collectables/HandMirror.png')
+		this.load.image('collectible4','assets/images/Collectables/Lamp.png')
+		this.load.image('collectible5','assets/images/Collectables/Umbrella.png')
 	}
 
 	create () {
