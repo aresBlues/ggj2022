@@ -28,6 +28,7 @@ export default class GameOver extends Phaser.Scene {
 		startButton.setInteractive()
 		startButton.on('pointerdown', () => {
 			this.scene.start('Main')
+			this.track.pause()
 		})
 		
 		const mainMenuButton = new Phaser.GameObjects.Text(
@@ -41,10 +42,15 @@ export default class GameOver extends Phaser.Scene {
 		mainMenuButton.setInteractive()
 		mainMenuButton.on('pointerdown', () => {
 			this.scene.start('Menu')
+			this.track.pause()
 		})
 		
 		this.add.existing(nameText)
 		this.add.existing(startButton)
 		this.add.existing(mainMenuButton)
+		this.track = this.sound.add('track3');
+		this.track.play({
+				loop: true
+			});
 	}
 }

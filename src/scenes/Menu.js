@@ -24,6 +24,7 @@ export default class Menu extends Phaser.Scene {
 			'Start Game',
 			() => {
 				this.scene.start('Main')
+				this.track.pause()
 			}
 		)
 		startButton.setPosition(width / 2, 500)
@@ -34,6 +35,7 @@ export default class Menu extends Phaser.Scene {
 			'Credits',
 			() => {
 				this.scene.start('Credits')
+				this.track.pause()
 			}
 		)
 		creditsButton.setPosition(width / 2, 700)
@@ -41,5 +43,10 @@ export default class Menu extends Phaser.Scene {
 		this.add.existing(nameText)
 		this.add.existing(startButton)
 		this.add.existing(creditsButton)
+		
+		this.track = this.sound.add('track1');
+		this.track.play({
+				loop: true
+			});
 	}
 }

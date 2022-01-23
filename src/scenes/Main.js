@@ -30,6 +30,9 @@ class Character extends Phaser.GameObjects.Container {
 		
 		this.add(overworldCharacter)
 		this.add(underworldCharacter)
+		
+		this.footsteps = scene.sound.add('footsteps');
+		this.sound_plyed = false;
 	}
 	
 	jump () {
@@ -74,6 +77,18 @@ class Character extends Phaser.GameObjects.Container {
 				this.jumped = false
 				this.doubleJumped = false
 			}
+		}
+		
+		if(this.sound_plyed === false && this.isOnFloor()) {
+			this.footsteps.play({
+				loop: true
+			});
+			this.sound_plyed = true;
+		}	
+		
+		if(!this.isOnFloor()) {
+			this.sound_plyed = false
+			this.footsteps.pause();
 		}
 		
 		this.underworldCharacter.y = -this.overworldCharacter.y
@@ -219,6 +234,11 @@ export default class MainScene extends Phaser.Scene {
 			},
 			loop: true
 		})
+		
+		this.track = this.sound.add('track2');
+		this.track.play({
+				loop: true
+			});
 		this.spawnObstacle()
 	}
 	
@@ -345,7 +365,10 @@ export default class MainScene extends Phaser.Scene {
 		}
 		
 		if (collisionDetected) {
+			this.character.footsteps.pause()
+			this.track.pause()
 			this.scene.start('GameOver')
+			
 		}
 	}
 }
