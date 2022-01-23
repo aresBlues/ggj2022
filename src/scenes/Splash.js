@@ -32,6 +32,15 @@ export default class SplashScene extends Phaser.Scene {
 		this.load.image('raven1','assets/images/Crow/raven-black0001.png')
 		this.load.image('raven2','assets/images/Crow/raven-black0008.png')
 		this.load.image('raven3','assets/images/Crow/raven-black0010.png')
+        this.load.image('forestF','assets/images/Layers/Forest_Foreground.png')
+        this.load.image('forestB','assets/images/Layers/ForestBackground.png')
+        this.load.image('middleG','assets/images/Layers/MiddleGrass.png')
+        this.load.image('rockB','assets/images/Layers/RockForestBackground.png')
+        this.load.image('rockF','assets/images/Layers/RockForestForeground.png')
+        this.load.image('townB','assets/images/Layers/TownArea_Background.png')
+        this.load.image('townF','assets/images/Layers/TownArea_Foreground.png')
+        this.load.image('town2F','assets/images/Layers/TownArea2_Foreground.png')
+       
 	}
 
 	create () {
