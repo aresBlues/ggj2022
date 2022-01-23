@@ -4,6 +4,9 @@ const ENABLE_LONG_JUMP = true
 const ENABLE_DOUBLE_JUMP = false
 const JUMP_SPEED = ENABLE_LONG_JUMP ? -500 : -700
 const MAXIMUM_LONG_JUMP_TIME = 250
+const COLLECTIBLE_MIN_SPAWN_TIME = 3000
+const COLLECTIBLE_MAX_SPAWN_TIME = 5000
+const COLLECTIBLE_OFFSET = 300
 
 class Character extends Phaser.GameObjects.Container {
 	constructor (scene) {
@@ -121,6 +124,30 @@ class Obstacle extends Phaser.GameObjects.Sprite {
 	}
 }
 
+class Collectible extends Phaser.GameObjects.Sprite {
+	constructor (scene, speed = -RUNNING_SPEED) {
+		const { width, height } = scene.sys.canvas
+		const index = Math.floor(Math.random() * 5) + 1
+		super(scene, 0, 0, 'collectible' + index)
+		this.side = Math.random() >= 0.5 ? 1 : 0
+		if (this.side === 1) {
+			this.setScale(1, -1)
+			this.setPosition(width, height / 2 + COLLECTIBLE_OFFSET)
+		} else {
+			this.setPosition(width, height / 2 - COLLECTIBLE_OFFSET)
+		}
+		
+		this.setOrigin(0, 1)
+		this.speed = speed
+	}
+	
+	updatePosition (deltaTime) {
+		const dx = this.speed * deltaTime / 1000
+		
+		this.x += dx
+	}
+}
+
 class Background extends Phaser.GameObjects.Sprite {
 	constructor (scene, speed = -RUNNING_SPEED*1.2) {
 		const { width, height } = scene.sys.canvas
@@ -184,6 +211,7 @@ export default class MainScene extends Phaser.Scene {
 			this.character.jumping = false
 		})
 		
+		this.collectibles = []
 		this.obstacles = []
 		this.backgroundObjects = []
 		
@@ -201,7 +229,6 @@ export default class MainScene extends Phaser.Scene {
 		const speedtimer = this.time.addEvent({
 			delay: 1000,
 			callback: () => {
-				this.runningSpeed++
 				this.updateSpeed()
 			},
 			loop: true
@@ -220,11 +247,34 @@ export default class MainScene extends Phaser.Scene {
 			loop: true
 		})
 		this.spawnObstacle()
+		
+		this.createCollectibleSpawnTimer()
+	}
+	
+	createCollectibleSpawnTimer() {
+		this.collectibleSpawnTimer = this.time.addEvent({
+			delay: Math.floor(
+				Math.random() * (
+					COLLECTIBLE_MAX_SPAWN_TIME
+					- COLLECTIBLE_MIN_SPAWN_TIME
+				)
+				+ COLLECTIBLE_MIN_SPAWN_TIME
+			),
+			callback: () => {
+				this.spawnCollectible()
+				setTimeout(() => this.createCollectibleSpawnTimer(), 0)
+			}
+		})
 	}
 	
 	updateSpeed () {
+		this.runningSpeed++
 		for (const obstacle of this.obstacles) {
 			obstacle.speed = -this.runningSpeed
+		}
+
+		for (const collectible of this.collectibles) {
+			collectible.speed = -this.runningSpeed
 		}
 	}
 	
@@ -232,6 +282,12 @@ export default class MainScene extends Phaser.Scene {
 		const obstacle = new Obstacle(this, -this.runningSpeed)
 		this.add.existing(obstacle)
 		this.obstacles.push(obstacle)
+	}
+
+	spawnCollectible () {
+		const collectible = new Collectible(this, -this.runningSpeed)
+		this.add.existing(collectible)
+		this.collectibles.push(collectible)
 	}
 	
 	selectRandomForeground () {
@@ -250,10 +306,6 @@ export default class MainScene extends Phaser.Scene {
 		this.usedBackgrounds.push(backgroundId)
 		return backgroundId
 	}
-	/*
-	available [1, 2]
-	used      [4, 3]
-	*/
 	
 	resetBackground (background) {
 		const { width } = this.sys.canvas
@@ -306,6 +358,17 @@ export default class MainScene extends Phaser.Scene {
 			}
 		}
 	}
+	
+	collect(collectible) {
+		const index = this.collectibles.indexOf(collectible)
+		
+		if (index !== -1) {
+			this.collectibles.splice(index, 1)
+		}
+		
+		collectible.destroy()
+		// TODO: add score
+	}
 
 	update (time, deltaTime) {
 		this.bgimage.x += -this.runningSpeed * deltaTime * 0.7 / 1000;
@@ -326,22 +389,51 @@ export default class MainScene extends Phaser.Scene {
 		
 		this.updateObjects(this.obstacles, deltaTime)
 		this.updateObjects(this.backgroundObjects, deltaTime)
+		this.updateObjects(this.collectibles, deltaTime)
 		
 		let collisionDetected = false
 		
 		const characterWidth = this.character.getWidth()
-		const characterX = this.character.getX() + characterWidth / 2
+		const characterHeight = this.character.getHeight()
+		const characterX = this.character.getX()
 		const characterY = this.character.getY()
 		
 		for (const obstacle of this.obstacles) {
-			const dx = characterX - (obstacle.x + obstacle.width / 2)
+			const dx = (characterX + characterWidth / 2) - (obstacle.x + obstacle.width / 2)
 			const dy = characterY - obstacle.y
 			const distance = dx * dx + dy * dy
-			const minimumDistance = (characterWidth / 2 + obstacle.width / 2) * 0.8
+			const minimumDistance = (characterWidth / 2 + obstacle.width / 2) * 0.7
 			
 			if (distance < minimumDistance * minimumDistance) {
 				collisionDetected = true
 			}
+		}
+		
+		const collected = []
+
+		for (const collectible of this.collectibles) {
+			if (
+				characterX + characterWidth * 3 / 4 > collectible.x + collectible.width / 3
+				&& characterX + characterWidth / 4 < collectible.x + collectible.width * 2 / 3
+				&& (
+					(
+						collectible.side === 0
+						&& characterY - characterHeight < collectible.y
+						&& characterY > collectible.y - collectible.height / 2
+					)
+					|| (
+						collectible.side === 1
+						&& characterY - characterHeight < collectible.y - COLLECTIBLE_OFFSET * 2
+						&& characterY > collectible.y - collectible.height / 2 - COLLECTIBLE_OFFSET * 2
+					)
+				)
+			) {
+				collected.push(collectible)
+			}
+		}
+		
+		for (const collectible of collected) {
+			this.collect(collectible)
 		}
 		
 		if (collisionDetected) {
