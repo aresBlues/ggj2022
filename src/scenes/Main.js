@@ -1,3 +1,5 @@
+import SoundControls from '../objects/SoundControls'
+
 const GRAVITATION = 1500
 const RUNNING_SPEED = 350
 const ENABLE_LONG_JUMP = true
@@ -199,9 +201,11 @@ export default class MainScene extends Phaser.Scene {
 
 	create () {
 		this.score = 0
-		const scoreText = new Phaser.GameObjects.Text(this, 80, 0, '0', { fontFamily: '"Amatic SC"', fontSize: '80px', color: '#000', fontStyle: '700' })
-		scoreText.setOrigin(0, 0)
+		const scoreText = new Phaser.GameObjects.Text(this, 150, 100, '0', { fontFamily: '"Amatic SC"', fontSize: '80px', color: '#000', fontStyle: '700' })
+		scoreText.setOrigin(0.5, 0.5)
 		this.scoreText = scoreText
+		const scoreBackground = new Phaser.GameObjects.Rectangle(this, 50, 50, 200, 100, 0xffffff, 0.4)
+		scoreBackground.setOrigin(0, 0)
 		const { width, height } = this.sys.canvas
 		this.availableForegrounds = [1, 2, 3, 4]
 		this.usedForegrounds = []
@@ -266,6 +270,7 @@ export default class MainScene extends Phaser.Scene {
 			},
 			loop: true
 		})
+		this.add.existing(scoreBackground)
 		this.add.existing(scoreText)
 		
 		this.track = this.sound.add('track2');
@@ -275,6 +280,10 @@ export default class MainScene extends Phaser.Scene {
 		this.spawnObstacle()
 		
 		this.createCollectibleSpawnTimer()
+		
+		const soundControls = new SoundControls(this)
+		soundControls.setPosition(width - 450, 50)
+		this.add.existing(soundControls)
 	}
 	
 	createCollectibleSpawnTimer() {

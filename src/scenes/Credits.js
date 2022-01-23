@@ -1,5 +1,6 @@
 import config from '../config'
 import Button from '../objects/Button'
+import SoundControls from '../objects/SoundControls'
 
 export default class Credits extends Phaser.Scene {
 	constructor () {
@@ -103,5 +104,9 @@ export default class Credits extends Phaser.Scene {
 		this.add.existing(programmer1Text)
 		this.add.existing(programmer2Text)
 		this.add.existing(continueButton)
+
+		const soundControls = new SoundControls(this)
+		soundControls.setPosition(width - 450, 50)
+		this.add.existing(soundControls)
 	}
 }
